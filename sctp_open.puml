@@ -1,0 +1,11 @@
+@startuml
+
+Client -> Server : INIT(Ta, J)
+
+Server -> Client : Ta: INIT-ACK(Tz, K, Cookie C)
+
+Client -> Server : Tz: COOKIE-ECHO C
+
+Server -> Client : Ta: COOKIE-ACK
+
+@enduml

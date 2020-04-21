@@ -1,0 +1,41 @@
+@startuml
+
+[*] --> CLOSE
+
+'client open a sctp connection
+CLOSE --> COOKIE_WAIT : appl:active-open\nsend:INIT
+
+'client recv server's response ofr INIT, send COOKIE_ECHO and wait.
+COOKIE_WAIT --> COOKIE_ECHOED : recv:INIT_ACK\nsend:COOKIE_ECHO
+
+'server recv a valid client's COOKIE_ECHO(before has sent INIT),
+'server then send COOKIE_ACK, wait for client response.
+CLOSE --> ESTABLISHED : recv:valid-COOKIE-ECHO\nsend:COOKIE_ACK
+
+'client recv server's COOKIE_ACK for previous sent COOKIE_ECHO response,
+'enter normal communication state
+COOKIE_ECHOED --> ESTABLISHED : recv:COOKIE_ACK
+
+'client active close this sctp connection, send all remaining out-standing-data
+ESTABLISHED --> SHUTDOWN_PENDING : appl:close\nsend:out-standing-data
+
+'client has sent all remaining out-standing-data, send SHUTDOWN to server
+SHUTDOWN_PENDING -> SHUTDOWN_SENT : send:SHUTDOWN
+
+'server recv client's SHUTDOWN, send all remaining out-standing-data
+ESTABLISHED --> SHUTDOWN_RECEIVED : recv:SHUTDOWN\nsend:out-standing-data
+
+'server has sent all remaining out-standing-data,
+'send SHUTDOWN_ACK as client's SHUTDOWN response
+SHUTDOWN_RECEIVED --> SHUTDOWN_ACK_SENT : send:SHUTDOWN-ACK
+
+'client recv server's SHUTDOWN_ACK as response of previous sent SHUTDOWN
+'and sent SHUTDOWN_COMPLETE as final response to server
+SHUTDOWN_SENT --> CLOSE : recv:SHUTDOWN-ACK\nsend:SHUTDOWN_COMPLETE
+
+'server recv client's SHUTDOWN_COMPLETE as final msg
+SHUTDOWN_ACK_SENT --> CLOSE : recv:SHUTDOWN_COMPLETE
+
+'make up for special cases
+
+@enduml

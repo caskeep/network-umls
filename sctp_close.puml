@@ -1,0 +1,9 @@
+@startuml
+
+Client -> Server : SHUTDDOWN
+
+Server -> Client : SHUTDDOWN-ACK
+
+Client -> Server : SHUTDDOWN-COMPLETE
+
+@enduml
