@@ -10,10 +10,20 @@ SYN_SENT --> ESTABLISHED : recv:SYN+ACK\nsend:ACK
 
 SYN_RECV --> ESTABLISHED : recv:ACK\n
 
-ESTABLISHED --> TIME_WAIT : appl:close\nsend:FIN
+ESTABLISHED --> FIN_WAIT_1 : appl:close\nsend:FIN
 
-ESTABLISHED --> WAIT_FIN_1 : recv:FIN
+ESTABLISHED --> CLOSE_WAIT : recv:FIN\nsend:ACK
 
-WAIT_FIN_1 --> WAIT_FIN_2 : recv:
+CLOSE_WAIT --> LAST_ACK : send:FIN
+
+LAST_ACK --> CLOSE : recv:ACK
+
+FIN_WAIT_1 --> FIN_WAIT_2 : recv:ACK
+
+FIN_WAIT_2 --> TIME_WAIT : recv:FIN
+
+FIN_WAIT_1 --> TIME_WAIT : recv:ACK+FIN
+
+TIME_WAIT --> CLOSE
 
 @enduml

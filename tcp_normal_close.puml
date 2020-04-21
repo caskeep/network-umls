@@ -8,5 +8,4 @@ Server -> Client : FIN N
 
 Client -> Server : ACK N+1
 
-
 @enduml
