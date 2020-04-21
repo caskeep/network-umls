@@ -1,0 +1,12 @@
+@startuml
+
+Client -> Server : FIN M
+
+Server -> Client : ACK M+1
+
+Server -> Client : FIN N
+
+Client -> Server : ACK N+1
+
+
+@enduml

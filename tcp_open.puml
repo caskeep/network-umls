@@ -1,0 +1,9 @@
+@startuml
+
+Client -> Server : SYN J
+
+Server -> Client : SYN K, ACK J+1
+
+Client -> Server : ACK K+1
+
+@enduml

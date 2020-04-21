@@ -1,0 +1,19 @@
+@startuml
+
+[*] --> CLOSE
+
+CLOSE --> SYN_SENT : appl:send SYN\nsend:SYN
+
+CLOSE --> SYN_RECV : recv:SYN\nsend:SYN+ACK
+
+SYN_SENT --> ESTABLISHED : recv:SYN+ACK\nsend:ACK
+
+SYN_RECV --> ESTABLISHED : recv:ACK\n
+
+ESTABLISHED --> TIME_WAIT : appl:close\nsend:FIN
+
+ESTABLISHED --> WAIT_FIN_1 : recv:FIN
+
+WAIT_FIN_1 --> WAIT_FIN_2 : recv:
+
+@enduml
