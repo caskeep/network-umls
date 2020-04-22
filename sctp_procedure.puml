@@ -1,0 +1,25 @@
+@startuml
+
+participant Client
+participant Server
+
+hnote over Server : socket()
+hnote over Server : bind()
+hnote over Server : listen()
+hnote over Server : accept()
+
+hnote over Client : socket()
+hnote over Client : connect()
+
+Client <-> Server : sctp four-way handshake
+
+loop till end
+    Client -> Server : write
+    Server -> Client : reply
+end
+
+hnote over Client : close()
+
+Client -> Server : EOF
+
+@enduml
